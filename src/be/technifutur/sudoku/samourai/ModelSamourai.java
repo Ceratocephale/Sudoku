@@ -21,6 +21,9 @@ public class ModelSamourai extends AbstractModel implements SudokuModel {
         Set<Character>[] lines = new Set[gdim];
         Set<Character>[] cols = new Set[gdim];
         Set<Character>[] squares = new Set[gdim];
+        Set<Character>[] lines2 = new Set[gdim];
+        Set<Character>[] cols2 = new Set[gdim];
+        Set<Character>[] squares2 = new Set[gdim];
 
         for (int i = 0; i < gdim; i++) {
             lines[i] = new HashSet<>();
@@ -31,10 +34,12 @@ public class ModelSamourai extends AbstractModel implements SudokuModel {
         Cell[][] values = new Cell[dim][dim];
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
-                values[i][j] = new Cell();
-                values[i][j].addZone("line" + i, lines[i]);
-                values[i][j].addZone("col" + j, cols[j]);
-                values[i][j].addZone("square" + j / sqrt + ((i / sqrt) * sqrt), squares[j / sqrt + ((i / sqrt) * sqrt)]);
+                if (isPositionValid(i, j)) {
+                    values[i][j] = new Cell();
+                    values[i][j].addZone("line" + i, lines[i]);
+                    values[i][j].addZone("col" + j, cols[j]);
+                    values[i][j].addZone("square" + j / sqrt + ((i / sqrt) * sqrt), squares[j / sqrt + ((i / sqrt) * sqrt)]);
+                }
             }
         }
         return values;

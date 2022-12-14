@@ -14,6 +14,18 @@ public class Cell {
         return this.value;
     }
 
+    /*
+    si cellule lock
+        si new values != value
+    si new values != empty
+    tester si la valeur est dans les zones
+
+    enleer ancienne valeur des zones si ancienne != empty
+    ajouter new value dans les zones si new values != empty
+
+    value <- new Value
+
+     */
     public boolean setValue(char value) {
         if (isLock()) return false;
         else {
