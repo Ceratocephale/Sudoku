@@ -20,7 +20,7 @@ public class Cell {
     si new values != empty
     tester si la valeur est dans les zones
 
-    enleer ancienne valeur des zones si ancienne != empty
+    enlever ancienne valeur des zones si ancienne != empty
     ajouter new value dans les zones si new values != empty
 
     value <- new Value
@@ -30,6 +30,7 @@ public class Cell {
         if (isLock()) return false;
         else {
             this.value = value;
+            System.out.println(this.zones.values());
             return true;
         }
     }
