@@ -1,6 +1,10 @@
 package be.technifutur.sudoku;
 
+import be.technifutur.sudoku.Abstract.AbstractModel;
 import be.technifutur.sudoku.Interface.SudokuModel;
+import be.technifutur.sudoku.SudokuException.CellLockedException;
+import be.technifutur.sudoku.SudokuException.SudokuDuplicateDetection;
+import be.technifutur.sudoku.SudokuException.SudokuException;
 
 import java.util.*;
 
@@ -26,11 +30,19 @@ public class Cell {
     value <- new Value
 
      */
-    public boolean setValue(char value) {
-        if (isLock()) return false;
+    public boolean setValue(char value) throws SudokuException {
+        if (isLock()) throw new CellLockedException("Cell is locked!");
         else {
-            this.value = value;
-            System.out.println(this.zones.values());
+            if (value != this.value) {
+                for (Set<Character> set : this.zones.values()) {
+                    if (!set.contains(value)) {
+                        set.remove(this.value);
+                        set.add(value);
+                    } else throw new SudokuDuplicateDetection("Doublon detected, fdp");
+                }
+                this.value = value;
+
+            }
             return true;
         }
     }
@@ -52,10 +64,15 @@ public class Cell {
         return value == SudokuModel.empty;
     }
 
-    public boolean clear() {
-        if (isLock()) return false;
+    public boolean clear() throws SudokuException {
+        if (isLock()) throw new CellLockedException("Cell is locked");
         else {
-            this.value = SudokuModel.empty;
+            if (!this.isEmpty()) {
+                for (Set<Character> set : this.zones.values()) {
+                    set.remove(this.value);
+                }
+                this.value = SudokuModel.empty;
+            }
             return true;
         }
     }

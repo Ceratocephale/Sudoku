@@ -1,5 +1,6 @@
 package be.technifutur.sudoku.Interface;
 
+import be.technifutur.sudoku.SudokuException.SudokuException;
 import be.technifutur.sudoku.SudokuException.SudokuPositionException;
 import be.technifutur.sudoku.SudokuException.SudokuValueException;
 
@@ -9,9 +10,9 @@ public interface SudokuModel {
 
     public char getValue(int lig, int col);
 
-    public void setValue(char value, int lig, int col) throws SudokuPositionException, SudokuValueException;
+    public void setValue(char value, int lig, int col) throws SudokuException;
 
-    public void deleteValue(int lig, int col) throws SudokuPositionException;
+    public void deleteValue(int lig, int col) throws SudokuException;
 
     public boolean isValueValid(char value);
 

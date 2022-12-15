@@ -2,9 +2,7 @@ package be.technifutur.sudoku;
 
 import be.technifutur.sudoku.Interface.SudokuModel;
 import be.technifutur.sudoku.Interface.SudokuVue;
-import be.technifutur.sudoku.SudokuException.SudokuException;
-import be.technifutur.sudoku.SudokuException.SudokuPositionException;
-import be.technifutur.sudoku.SudokuException.SudokuValueException;
+import be.technifutur.sudoku.SudokuException.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,6 +42,8 @@ public class SudokuController {
         } catch (SudokuPositionException e) {
             System.out.println(e.getMessage());
         } catch (SudokuValueException e) {
+            System.out.println(e.getMessage());
+        } catch (SudokuException e) {
             System.out.println(e.getMessage());
         }
 
@@ -95,9 +95,7 @@ public class SudokuController {
 
                             try {
                                 m.setValue(valeur, lig - 1, col - 1);
-                            } catch (SudokuPositionException e) {
-                                System.err.println(e.getMessage());
-                            } catch (SudokuValueException e) {
+                            } catch (SudokuException e) {
                                 System.err.println(e.getMessage());
                             }
 
@@ -124,6 +122,8 @@ public class SudokuController {
                             try {
                                 m.deleteValue(lig - 1, col - 1);
                             } catch (SudokuPositionException e) {
+                                System.err.println(e.getMessage());
+                            } catch (SudokuException e) {
                                 System.err.println(e.getMessage());
                             }
                         } else

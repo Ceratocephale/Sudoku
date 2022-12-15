@@ -18,9 +18,9 @@ public class ModelSamourai extends AbstractModel implements SudokuModel {
         int gdim = 9;
         int sqrt = (int) Math.sqrt(gdim);
 
-        Set<Character>[] lines = new Set[gdim * 5];
-        Set<Character>[] cols = new Set[gdim * 5];
-        Set<Character>[] squares = new Set[gdim * 5];
+        Set<Character>[] lines = new Set[gdim * gdim];
+        Set<Character>[] cols = new Set[gdim * gdim];
+        Set<Character>[] squares = new Set[gdim*gdim];
 
 
         for (int i = 0; i < gdim * 5; i++) {
@@ -40,9 +40,9 @@ public class ModelSamourai extends AbstractModel implements SudokuModel {
                     int c = j - OriginCol;
                     if (l >= 0 && l < 9 && c >= 0 && c < 9) {
                         values[i][j] = new Cell();
-                        values[i][j].addZone("line" + i, lines[i+j*k]);
-                        values[i][j].addZone("col" + j, cols[j+i*k]);
-                        values[i][j].addZone("square" + (j+i*k) / sqrt + (((i+j*k) / sqrt) * sqrt), squares[(j+i*k) / sqrt + (((i+j*k) / sqrt) * sqrt)]);
+                        values[i][j].addZone("line" + i, lines[i+(gdim*k)]);
+                        values[i][j].addZone("col" + j, cols[j+(gdim*k)]);
+                        values[i][j].addZone("square" + (j+(i*k)) / sqrt + (((i+j*k) / sqrt) * sqrt), squares[(j+i*k) / sqrt + (((i+j*k) / sqrt) * sqrt)]);
                     }
                 }
             }

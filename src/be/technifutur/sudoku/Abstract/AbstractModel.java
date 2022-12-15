@@ -2,6 +2,8 @@ package be.technifutur.sudoku.Abstract;
 
 import be.technifutur.sudoku.Cell;
 import be.technifutur.sudoku.Interface.SudokuModel;
+import be.technifutur.sudoku.SudokuException.CellLockedException;
+import be.technifutur.sudoku.SudokuException.SudokuException;
 import be.technifutur.sudoku.SudokuException.SudokuPositionException;
 import be.technifutur.sudoku.SudokuException.SudokuValueException;
 
@@ -23,14 +25,18 @@ public abstract class AbstractModel {
         return value;
     }
 
-    public void setValue(char value, int lig, int col) throws SudokuPositionException, SudokuValueException {
+    public void setValue(char value, int lig, int col) throws SudokuException {
         if (!isValueValid(value)) throw new SudokuValueException("La valeur " + value + " n'est pas bonne!");
         else if (!isPositionValid(lig, col))
             throw new SudokuPositionException("La position " + (lig + 1) + "." + (col + 1) + " n'existe pas");
-        else values[lig][col].setValue(value);
+        else if (values[lig][col].isLock()) throw new CellLockedException("Cell is locked");
+        else {
+            values[lig][col].setValue(value);
+
+        }
     }
 
-    public void deleteValue(int lig, int col) throws SudokuPositionException {
+    public void deleteValue(int lig, int col) throws SudokuException {
         if (isPositionValid(lig, col))
             values[lig][col].clear();
         else throw new SudokuPositionException("La position " + (lig + 1) + "." + (col + 1) + " n'existe pas");
@@ -56,10 +62,10 @@ public abstract class AbstractModel {
         Cell[][] values = new Cell[dim][dim];
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
-                    values[i][j] = new Cell();
-                    values[i][j].addZone("line" + i, lines[i]);
-                    values[i][j].addZone("col" + j, cols[j]);
-                    values[i][j].addZone("square" + j / sqrt + ((i / sqrt) * sqrt), squares[j / sqrt + ((i / sqrt) * sqrt)]);
+                values[i][j] = new Cell();
+                values[i][j].addZone("line" + i, lines[i]);
+                values[i][j].addZone("col" + j, cols[j]);
+                values[i][j].addZone("square" + j / sqrt + ((i / sqrt) * sqrt), squares[j / sqrt + ((i / sqrt) * sqrt)]);
             }
         }
         return values;
