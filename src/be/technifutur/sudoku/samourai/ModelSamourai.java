@@ -55,12 +55,6 @@ public class ModelSamourai extends AbstractModel implements SudokuModel {
         return (!(((((lig >= 0 && lig <= 5) || (lig >= 15 && lig <= 20)) && (col >= 9 && col <= 11)) || ((lig >= 9 && lig <= 11) && (((col >= 0 && col <= 5)) || (col >= 15 && col <= 20)))) || (lig < 0 || col < 0 || lig > 20 || col > 20)));
     }
 
-//    public static void main(String[] args) {
-//        int[][] tab = new int[][]{{0,0},{0,12},{6,6},{12,0},{12,12}};
-//        for(int i = 0; i< tab.length; i++){
-//            System.out.println(tab[i][0]);
-//            System.out.println(tab[i][1]);
-//        }
-//    }
+
 }
 

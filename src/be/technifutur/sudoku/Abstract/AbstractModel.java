@@ -1,14 +1,20 @@
 package be.technifutur.sudoku.Abstract;
 
 import be.technifutur.sudoku.Cell;
+import be.technifutur.sudoku.FourFour.Model4x4;
 import be.technifutur.sudoku.Interface.SudokuModel;
 import be.technifutur.sudoku.SudokuException.CellLockedException;
 import be.technifutur.sudoku.SudokuException.SudokuException;
 import be.technifutur.sudoku.SudokuException.SudokuPositionException;
 import be.technifutur.sudoku.SudokuException.SudokuValueException;
 
+import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractModel {
     public int dim;
@@ -82,5 +88,29 @@ public abstract class AbstractModel {
                 values[i][j].lock();
             }
         }
+    }
+
+    public BigInteger getMemento() {
+        Stream<Cell> cellStream = Arrays.stream(values).flatMap(v -> Arrays.stream(v));
+        BigInteger big;
+        big = cellStream.filter(v -> (!v.isLock()) && (v != null))
+                .map(v -> v.isEmpty() ? BigInteger.ZERO : new BigInteger(String.valueOf(v.getValue())))
+                .peek(x -> System.out.printf("avant reduce : %s\n", x))
+                .reduce((old, neo) -> old.shiftLeft(4).add(neo)).orElse(BigInteger.ZERO);
+
+        return big;
+    }
+
+    //    public Object setMemento() {
+//
+//    }
+    public static void main(String[] args) throws SudokuException {
+        Model4x4 mod = new Model4x4();
+        mod.setValue('1', 0, 0);
+        mod.setValue('2', 1, 1);
+        mod.setValue('3', 2, 2);
+        mod.setValue('1', 3, 3);
+
+        System.out.println((mod.getMemento()).toString(2));
     }
 }
